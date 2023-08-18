@@ -46,7 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Database\Commands\PersonCommands.cs" />
     <Compile Include="Database\SQLServer.cs" />
+    <Compile Include="Entities\Person.cs" />
     <Compile Include="Entities\Producto.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
