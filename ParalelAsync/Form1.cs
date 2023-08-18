@@ -1,9 +1,11 @@
 ﻿using ParalelAsync.Database;
+using ParalelAsync.Database.Commands;
 using ParalelAsync.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -17,20 +19,21 @@ namespace ParalelAsync
         private readonly string _connectionString;
         public Form1()
         {
-            _connectionString = $"Server=localhost;Database=FarmaciaDB;Trusted_Connection=True;TrustServerCertificate=true;";
+            _connectionString = "Server=localhost;Database=AdventureWorks2022;User Id=sa;Password=MiContraseniaSegura-2023;";
+            //_connectionString = $"Server=localhost;Database=AdventureWorks2022;Trusted_Connection=True;TrustServerCertificate=true;";
             InitializeComponent();
         }
 
-        private void btn1_Click(object sender, EventArgs e)
+        private async void btn1_Click(object sender, EventArgs e)
         {
             try
             {
-                Producto producto = new Producto();
-                SQLServer sqlserver = new SQLServer(_connectionString);
+                Person person = await new PersonCommands(_connectionString).GetPersonAsync(4);
 
-                producto = sqlserver.Reader<Producto>("SELECT Id, Nombre, Descripcion FROM Productos WHERE Id=1");
-
-                MessageBox.Show($"{producto.Id} {producto.Nombre} {producto.Descripcion}");
+                if (person != null )
+                {
+                    MessageBox.Show($"Persona: {person.BusinessEntityID}, nombre: {person.FirstName} {person.MiddleName} {person.LastName}, modificado: {person.ModifiedDate:dd/MM/yyyy}");
+                }
             }
             catch (Exception ex)
             {
